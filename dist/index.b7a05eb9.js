@@ -524,25 +524,27 @@ var _lodashRandom = require("lodash.random");
 var _lodashRandomDefault = parcelHelpers.interopDefault(_lodashRandom);
 var _classes = require("~/src/logic/classes");
 var _elements = require("~/src/logic/elements");
-let currentClassState = _classes.classArray[_lodashRandomDefault.default(0, _classes.classArray.length)];
+let currentClassState = _classes.classArray[_lodashRandomDefault.default(0, _classes.classArray.length - 1)];
 const getCurrentClassState = ()=>{
     return currentClassState;
 };
 const setCurrentClassState = (nextClass)=>{
     currentClassState = nextClass;
 };
-const changeClass = ()=>{
+const changeClass = async ()=>{
     const currentClass = getCurrentClassState();
     const filteredClassArray = _classes.classArray.filter((c)=>{
         return c !== currentClass;
     });
     const nextClass = filteredClassArray[_lodashRandomDefault.default(0, filteredClassArray.length - 1)];
-    _elements.body.classList.replace("body-" + currentClass, "body-" + nextClass);
-    _elements.button?.classList.replace("button-" + currentClass, "button-" + nextClass);
+    if (nextClass.onClick) await nextClass.onClick();
+    _elements.body.classList.replace('body-' + currentClass.name, 'body-' + nextClass.name);
+    _elements.button?.classList.replace('button-' + currentClass.name, 'button-' + nextClass.name);
     setCurrentClassState(nextClass);
 };
-changeClass();
-_elements.button?.addEventListener("click", changeClass);
+_elements.button?.addEventListener('click', changeClass);
+_elements.body.classList.add('body-' + currentClassState);
+_elements.button?.classList.add('button-' + currentClassState);
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","lodash.random":"2LJLN","~/src/logic/classes":"4gvtb","~/src/logic/elements":"lu3ts"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
@@ -953,8 +955,12 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "classArray", ()=>classArray
 );
 const classArray = [
-    "one",
-    "two"
+    {
+        name: 'one'
+    },
+    {
+        name: 'two'
+    }
 ];
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lu3ts":[function(require,module,exports) {

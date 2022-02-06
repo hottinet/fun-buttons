@@ -1,32 +1,41 @@
 import random from 'lodash.random';
 
-import { classArray } from '~/src/logic/classes'
-import { body,button } from '~/src/logic/elements';
+import { classArray, ClassObject } from '~/src/logic/classes';
+import { body, button } from '~/src/logic/elements';
 
-let currentClassState = classArray[random(0, classArray.length)]
+let currentClassState = classArray[random(0, classArray.length - 1)];
 
 const getCurrentClassState = () => {
-  return currentClassState
-}
+  return currentClassState;
+};
 
-const setCurrentClassState = (nextClass:string) => {
-  currentClassState = nextClass
-}
+const setCurrentClassState = (nextClass: ClassObject) => {
+  currentClassState = nextClass;
+};
 
-const changeClass = () => {
-  const currentClass = getCurrentClassState()
-  const filteredClassArray = classArray.filter((c) =>{
-    return c !== currentClass
-  })
+const changeClass = async () => {
+  const currentClass = getCurrentClassState();
+  const filteredClassArray = classArray.filter((c) => {
+    return c !== currentClass;
+  });
 
-  const nextClass = filteredClassArray[random(0, filteredClassArray.length-1)]
+  const nextClass =
+    filteredClassArray[random(0, filteredClassArray.length - 1)];
 
-  body.classList.replace("body-" + currentClass, "body-" + nextClass)
-  button?.classList.replace("button-" + currentClass, "button-" + nextClass)
+  if (nextClass.onClick) {
+    await nextClass.onClick();
+  }
 
-  setCurrentClassState(nextClass)
-}
+  body.classList.replace('body-' + currentClass.name, 'body-' + nextClass.name);
+  button?.classList.replace(
+    'button-' + currentClass.name,
+    'button-' + nextClass.name
+  );
 
-changeClass()
+  setCurrentClassState(nextClass);
+};
 
-button?.addEventListener("click", changeClass)
+button?.addEventListener('click', changeClass);
+
+body.classList.add('body-' + currentClassState);
+button?.classList.add('button-' + currentClassState);

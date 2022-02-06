@@ -6,7 +6,6 @@ html, body {
 
 body {
 	position: relative;
-	background-color: pink;
 }
 
 div, a {
@@ -30,8 +29,8 @@ p, h1, h2, h3, h4, h5, h6 {
 	cursor: pointer;
 }
 
-.content-one {
-
+.body-one {
+	background-color: cornflowerblue;
 }
 
 .button-one {
@@ -44,6 +43,10 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .button-one:hover {
 	background-color: green;
+}
+
+.body-two {
+	background-color: pink;
 }
 
 .button-two{
