@@ -1,7 +1,7 @@
 import random from 'lodash.random';
 
 import { classArray, ClassObject } from '~/src/logic/classes';
-import { body, button } from '~/src/logic/elements';
+import { body, button, buttonText } from '~/src/logic/elements';
 
 let currentClassState = classArray[random(0, classArray.length - 1)];
 
@@ -31,11 +31,16 @@ const changeClass = async () => {
     'button-' + currentClass.name,
     'button-' + nextClass.name
   );
+  buttonText?.classList.replace(
+    'button-text-' + currentClass.name,
+    'button-text-' + nextClass.name
+  );
 
   setCurrentClassState(nextClass);
 };
 
 button?.addEventListener('click', changeClass);
 
-body.classList.add('body-' + currentClassState);
-button?.classList.add('button-' + currentClassState);
+body.classList.add('body-' + currentClassState.name);
+buttonText?.classList.add('button-text-' + currentClassState.name);
+button?.classList.add('button-' + currentClassState.name);

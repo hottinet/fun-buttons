@@ -29,26 +29,38 @@ p, h1, h2, h3, h4, h5, h6 {
 	cursor: pointer;
 }
 
+/* STYLES ONE */
+
 .body-one {
 	background-color: cornflowerblue;
 }
 
 .button-one {
-	padding: 20px;
+	padding: 20px 40px;
 	background-color: red;
 	text-align: center;
 	color: white;
 	border-radius: 8px;
+	transition: transform .5s;
+	transition: background-color .5s;
 }
 
 .button-one:hover {
-	background-color: green;
+	background-color: orange;
+	transform: rotate(-6deg);
 }
 
+/* STYLES TWO */
+
 .body-two {
-	background-color: pink;
+	background-color: white;
 }
 
 .button-two{
-	background-color: black;
+	background-color:  white;
+	border: 2px solid blue;
+	padding: 15px 100px;
+	border-radius: 100px;
+	transform: translate(10vw, -10vh);
 }
+

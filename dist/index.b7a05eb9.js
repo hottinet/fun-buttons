@@ -540,43 +540,15 @@ const changeClass = async ()=>{
     if (nextClass.onClick) await nextClass.onClick();
     _elements.body.classList.replace('body-' + currentClass.name, 'body-' + nextClass.name);
     _elements.button?.classList.replace('button-' + currentClass.name, 'button-' + nextClass.name);
+    _elements.buttonText?.classList.replace('button-text-' + currentClass.name, 'button-text-' + nextClass.name);
     setCurrentClassState(nextClass);
 };
 _elements.button?.addEventListener('click', changeClass);
-_elements.body.classList.add('body-' + currentClassState);
-_elements.button?.classList.add('button-' + currentClassState);
+_elements.body.classList.add('body-' + currentClassState.name);
+_elements.buttonText?.classList.add('button-text-' + currentClassState.name);
+_elements.button?.classList.add('button-' + currentClassState.name);
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","lodash.random":"2LJLN","~/src/logic/classes":"4gvtb","~/src/logic/elements":"lu3ts"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, '__esModule', {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"2LJLN":[function(require,module,exports) {
+},{"lodash.random":"2LJLN","~/src/logic/classes":"4gvtb","~/src/logic/elements":"lu3ts","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2LJLN":[function(require,module,exports) {
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -963,14 +935,47 @@ const classArray = [
     }
 ];
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lu3ts":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"lu3ts":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "button", ()=>button
 );
+parcelHelpers.export(exports, "buttonText", ()=>buttonText
+);
 parcelHelpers.export(exports, "body", ()=>body
 );
 const button = document.getElementById('button');
+const buttonText = document.getElementById('button-text');
 const body = document.body;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["lpcHr","jeorp"], "jeorp", "parcelRequire9b17")
