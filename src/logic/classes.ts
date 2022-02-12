@@ -10,10 +10,10 @@ export const classArray: ClassObject[] = [
     name: 'bluebg',
     onClick: async (button) => {
       //apply a new class in here
-      button.classList.add('button-one-transition');
+      button.classList.add('button-bluebg-transition');
       await timeout(() => {
         //un apply the class
-        button.classList.remove('button-one-transition');
+        button.classList.remove('button-bluebg-transition');
       }, 2000);
     },
   },
