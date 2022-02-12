@@ -524,6 +524,7 @@ var _lodashRandom = require("lodash.random");
 var _lodashRandomDefault = parcelHelpers.interopDefault(_lodashRandom);
 var _classes = require("~/src/logic/classes");
 var _elements = require("~/src/logic/elements");
+// START - CLASS STATE - START
 let currentClassState = _classes.classArray[_lodashRandomDefault.default(0, _classes.classArray.length - 1)];
 const getCurrentClassState = ()=>{
     return currentClassState;
@@ -531,22 +532,60 @@ const getCurrentClassState = ()=>{
 const setCurrentClassState = (nextClass)=>{
     currentClassState = nextClass;
 };
+const buttonState = {
+    current: {
+        button: _elements.buttonOne,
+        text: _elements.buttonOneText
+    },
+    next: {
+        button: _elements.buttonTwo,
+        text: _elements.buttonTwoText
+    }
+};
+const getButtonState = ()=>{
+    return buttonState;
+};
+const toggleButtonState = ()=>{
+    const futureNext = getButtonState().current;
+    const futureCurrent = getButtonState().next;
+    buttonState.current = futureCurrent;
+    buttonState.next = futureNext;
+};
+// END - BUTTON STATE - END
+// START - CHANGE CLASS LOGIC - START
 const changeClass = async ()=>{
     const currentClass = getCurrentClassState();
+    const { current: current1 , next: next1  } = getButtonState();
+    // Don't allow the currently selected styles to
+    // be randomly selected for next
     const filteredClassArray = _classes.classArray.filter((c)=>{
         return c !== currentClass;
     });
     const nextClass = filteredClassArray[_lodashRandomDefault.default(0, filteredClassArray.length - 1)];
-    if (nextClass.onClick) await nextClass.onClick();
+    await currentClass.onClick?.(current1.button);
     _elements.body.classList.replace('body-' + currentClass.name, 'body-' + nextClass.name);
-    _elements.button?.classList.replace('button-' + currentClass.name, 'button-' + nextClass.name);
-    _elements.buttonText?.classList.replace('button-text-' + currentClass.name, 'button-text-' + nextClass.name);
+    // Clear all the current classes on the next button, then add the appropriate one
+    next1.button.classList.remove(...Array.from(next1.button.classList));
+    next1.button.classList.add('button-' + nextClass.name);
+    // Do the same for the text
+    next1.text.classList.remove(...Array.from(next1.text.classList));
+    next1.text.classList.add('button-text-' + nextClass.name);
+    next1.button.style.display = "block";
+    current1.button.style.display = "none";
     setCurrentClassState(nextClass);
+    toggleButtonState();
 };
-_elements.button?.addEventListener('click', changeClass);
+// END - CHANGE CLASS LOGIC - END
+// START - SETUP - START
+// For both buttons (current and next) apply the onClick listener
+Object.keys(buttonState).forEach((stateKey)=>{
+    getButtonState()[stateKey].button.addEventListener('click', changeClass);
+});
 _elements.body.classList.add('body-' + currentClassState.name);
-_elements.buttonText?.classList.add('button-text-' + currentClassState.name);
-_elements.button?.classList.add('button-' + currentClassState.name);
+const { current , next  } = getButtonState();
+next.button.style.display = 'none';
+current.text.classList.add('button-text-' + currentClassState.name);
+current.button.classList.add('button-' + currentClassState.name); // END - SETUP - END
 
 },{"lodash.random":"2LJLN","~/src/logic/classes":"4gvtb","~/src/logic/elements":"lu3ts","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2LJLN":[function(require,module,exports) {
 /**
@@ -926,16 +965,25 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "classArray", ()=>classArray
 );
+var _util = require("./util");
 const classArray = [
     {
-        name: 'one'
+        name: 'bluebg',
+        onClick: async (button)=>{
+            //apply a new class in here
+            button.classList.add('button-one-transition');
+            await _util.timeout(()=>{
+                //un apply the class
+                button.classList.remove('button-one-transition');
+            }, 2000);
+        }
     },
     {
-        name: 'two'
-    }
+        name: 'white'
+    }, 
 ];
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./util":"82EiT"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -965,17 +1013,35 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"lu3ts":[function(require,module,exports) {
+},{}],"82EiT":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "button", ()=>button
+parcelHelpers.export(exports, "timeout", ()=>timeout
 );
-parcelHelpers.export(exports, "buttonText", ()=>buttonText
+const timeout = (func, ms)=>new Promise((resolve)=>setTimeout(()=>{
+            func();
+            resolve();
+        }, ms)
+    )
+;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lu3ts":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "buttonOne", ()=>buttonOne
+);
+parcelHelpers.export(exports, "buttonOneText", ()=>buttonOneText
+);
+parcelHelpers.export(exports, "buttonTwo", ()=>buttonTwo
+);
+parcelHelpers.export(exports, "buttonTwoText", ()=>buttonTwoText
 );
 parcelHelpers.export(exports, "body", ()=>body
 );
-const button = document.getElementById('button');
-const buttonText = document.getElementById('button-text');
+const buttonOne = document.getElementById('button-one');
+const buttonOneText = document.getElementById('button-one-text');
+const buttonTwo = document.getElementById('button-two');
+const buttonTwoText = document.getElementById('button-two-text');
 const body = document.body;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["lpcHr","jeorp"], "jeorp", "parcelRequire9b17")

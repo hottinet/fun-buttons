@@ -31,11 +31,11 @@ p, h1, h2, h3, h4, h5, h6 {
 
 /* STYLES ONE */
 
-.body-one {
+.body-bluebg {
 	background-color: cornflowerblue;
 }
 
-.button-one {
+.button-bluebg {
 	padding: 20px 40px;
 	background-color: red;
 	text-align: center;
@@ -45,18 +45,27 @@ p, h1, h2, h3, h4, h5, h6 {
 	transition: background-color .5s;
 }
 
-.button-one:hover {
+.button-bluebg:hover {
 	background-color: orange;
 	transform: rotate(-6deg);
 }
 
+@keyframes growfontsize {
+  from {font-size: initial;}
+  to {font-size:  200px;}
+}
+
+.button-bluebg-transition{
+	animation: growfontsize 2000ms;
+}
+
 /* STYLES TWO */
 
-.body-two {
+.body-white {
 	background-color: white;
 }
 
-.button-two{
+.button-white{
 	background-color:  white;
 	border: 2px solid blue;
 	padding: 15px 100px;

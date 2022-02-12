@@ -1,13 +1,21 @@
+import { timeout } from './util';
+
 export interface ClassObject {
   name: string;
-  onClick?: () => Promise<void>;
+  onClick?: (button: HTMLButtonElement) => Promise<void>;
 }
 
-// const addSomething = () => {
-//   const buttonOneTag = document.getElementsByClassName('button-one');
-//   const circleTag = document.createElement("div");
-//   buttonOneTag[0].appendChild(circleTag)
-// }
-
-export const classArray: ClassObject[] = [{ name: 'one' }, { name: 'two' }];
-
+export const classArray: ClassObject[] = [
+  {
+    name: 'bluebg',
+    onClick: async (button) => {
+      //apply a new class in here
+      button.classList.add('button-one-transition');
+      await timeout(() => {
+        //un apply the class
+        button.classList.remove('button-one-transition');
+      }, 2000);
+    },
+  },
+  { name: 'white' },
+];
